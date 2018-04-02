@@ -11,16 +11,17 @@ bin/rails generate scaffold order_detail amount:integer 'price:decimal{10,2}' or
 bin/rails db:create db:migrate RAILS_ENV=development
 bin/rails db:rollback STEP=9999
 bundle install # --path vendor/bundle
+rails s -e development
 
 ## gems
 https://github.com/composite-primary-keys/composite_primary_keys
 
 ## todo
-- adicionar `date` no `order`
 (4) Solicitar o fechamento do faturamento;
 (5) Emissão de pedidos faturados para o cliente;
 Emissão dos resumos de faturamento por mês (6), por produto mensal (7) e anual (8).
 Consulta em tela (9) e envio de pdf por e-mail (10).
+- login, auth
 
 
   ```

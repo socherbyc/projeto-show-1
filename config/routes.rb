@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get "/order_details/:order_number/:product_id/edit" => "order_details#edit", as: :order_details_edit, order_number: /\d{1,7}/, product_id: /\d{1,7}/
   match "/order_details/:order_number/:product_id", to: "order_details#update", as: :order_details_update, order_number: /\d{1,7}/, product_id: /\d{1,7}/, via: [:put, :patch]
   match "/order_details/:order_number/:product_id", to: "order_details#destroy", as: :order_details_destroy, order_number: /\d{1,7}/, product_id: /\d{1,7}/, via: :delete
+  get "/orders/new-complete", to: "orders#new_complete", as: :order_new_complete
   resources :order_details, only: [:index, :new, :create]
   resources :products
   resources :addresses

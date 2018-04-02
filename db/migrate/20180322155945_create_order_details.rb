@@ -3,7 +3,7 @@ class CreateOrderDetails < ActiveRecord::Migration[5.1]
     create_table :order_details, {id: false} do |t|
       t.integer :amount
       t.decimal :price, precision: 10, scale: 2
-      t.integer :order_number
+      t.integer :order_number, :limit => 8
       t.references :product, foreign_key: true
 
       t.timestamps

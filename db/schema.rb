@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20180322155945) do
   create_table "order_details", primary_key: ["order_number", "product_id"], force: :cascade do |t|
     t.integer "amount"
     t.decimal "price", precision: 10, scale: 2
-    t.integer "order_number", null: false
+    t.bigint "order_number", null: false
     t.bigint "product_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
