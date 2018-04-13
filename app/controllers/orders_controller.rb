@@ -24,37 +24,13 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
+    @order = Order.new(order_params)
+
     respond_to do |format|
-      begin
-        ActiveRecord::Base.transaction do
-          @order = Order.new(order_params)
-
-          unless @order.save
-            raise ''
-          end
-
-          if params.require(:order).has_key?(:products_ids_amount)
-            products_prices = Hash[Product.pluck("id", "price")]
-
-            products_ids_amount = params.require(:order).require(:products_ids_amount) \
-              .split(",").map { |s| s.split "=" }
-      
-            order_details = products_ids_amount.map do |(product_id, amount)|
-              OrderDetail.new({
-                amount: amount,
-                price: products_prices[product_id.to_i],
-                order_number: @order.number,
-                product_id: product_id
-              })
-            end
-      
-            OrderDetail.import order_details
-          end
-        end
-
+      if @order.save
         format.html { redirect_to @order, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
-      rescue
+      else
         format.html { render :new }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end

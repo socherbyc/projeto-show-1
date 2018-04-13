@@ -16,12 +16,23 @@ rails s -e development
 ## gems
 https://github.com/composite-primary-keys/composite_primary_keys
 
+
+
+
 ## todo
-(4) Solicitar o fechamento do faturamento;
-(5) Emissão de pedidos faturados para o cliente;
-Emissão dos resumos de faturamento por mês (6), por produto mensal (7) e anual (8).
-Consulta em tela (9) e envio de pdf por e-mail (10).
-- login, auth
+```
+-- [create,edit]client.address
+-- [delete]product
+-> Emissão dos resumos de faturamento por mês (6), por produto mensal (7) e anual (8).
+-- envio de pdf por e-mail (10).
+-* paginacao
+-- select+search (criar order (products))
+-* filter+mensagens erro
+-* formatar string dinheiro
+-- login
+-- auth
+-- roles
+```
 
 
   ```

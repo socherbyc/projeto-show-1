@@ -57,3 +57,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'composite_primary_keys', '~> 10.0.0'
 gem 'activerecord-import'
 gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
+gem 'rb-readline'

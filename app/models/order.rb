@@ -1,5 +1,5 @@
 class Order < ApplicationRecord
   belongs_to :client
-
-  # set_primary_key :number
+  self.primary_key = :number
+  has_many :order_details
 end
