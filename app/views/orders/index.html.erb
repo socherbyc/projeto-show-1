@@ -1,3 +1,7 @@
+<%= link_to 'Clients', clients_path %><br>
+Orders<br>
+<%= link_to 'Products', products_path %>
+
 <p id="notice"><%= notice %></p>
 
 <h1>Orders</h1>
@@ -18,7 +22,9 @@
         <td><%= order.client %></td>
         <td><%= link_to 'Show', order %></td>
         <td><%= link_to 'Edit', edit_order_path(order) %></td>
-        <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if false %>
+          <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
