@@ -52,10 +52,15 @@ class ClientsController < ApplicationController
   # PATCH/PUT /clients/1.json
   def update
     respond_to do |format|
-      if @client.update(client_params)
+      begin
+        ActiveRecord::Base.transaction do
+          unless @client.update(client_params) and @client.address.update(address_params)
+            raise ''
+          end
+        end
         format.html { redirect_to @client, notice: 'Client was successfully updated.' }
         format.json { render :show, status: :ok, location: @client }
-      else
+      rescue
         format.html { render :edit }
         format.json { render json: @client.errors, status: :unprocessable_entity }
       end
