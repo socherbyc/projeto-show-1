@@ -31,6 +31,28 @@
     <%= form.check_box :is_admin, id: :client_is_admin %>
   </div>
 
+  <%= fields_for :address, @client.address do |address_form| %>
+      <div class="field">
+        <%= address_form.label :street %>
+        <%= address_form.text_field :street, id: :address_street %>
+      </div>
+
+      <div class="field">
+        <%= address_form.label :city %>
+        <%= address_form.text_field :city, id: :address_city %>
+      </div>
+
+      <div class="field">
+        <%= address_form.label :state %>
+        <%= address_form.text_field :state, id: :address_state %>
+      </div>
+
+      <div class="field">
+        <%= address_form.label :client_id %>
+        <%= address_form.text_field :client_id, id: :address_client_id %>
+      </div>
+  <% end %>
+
   <div class="actions">
     <%= form.submit %>
   </div>
