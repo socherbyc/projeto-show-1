@@ -21,16 +21,12 @@ https://github.com/composite-primary-keys/composite_primary_keys
 
 ## todo
 ```
--- [delete]product
 -> Emissão dos resumos de faturamento por mês (6), por produto mensal (7) e anual (8).
 -- envio de pdf por e-mail (10).
 -* paginacao
 -- select+search (criar order (products))
 -* filter+mensagens erro
 -* formatar string dinheiro
--- login
--- auth
--- roles
 ```
 
 
