@@ -93,14 +93,14 @@ end
 
 
 
-orders_numbers = Order.select(:number).map(&:number)
 products_ids = Product.select(:id).map(&:id)
 
 # orders details
 
 do_partitioned(TOTAL_ORDERS) do |start, ending, partition|
     puts "order_detail #{partition}"
-    orders_details = orders_numbers[start...ending].map do |order_number|
+    orders_numbers = Order.limit(ending - start).offset(start).map(&:number)
+    orders_details = orders_numbers.map do |order_number|
         products_ids.shuffle.slice(0, rand(1..products_ids.length)).map do |product_id|
             OrderDetail.new(amount: Faker::Number.between(1, 100),
                 price: Faker::Number.decimal(2, 2), order_number: order_number,
