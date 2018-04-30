@@ -29,14 +29,10 @@ class ClientsController < ApplicationController
     respond_to do |format|
       begin
         ActiveRecord::Base.transaction do
-          unless @client.save
-            raise ''
-          end
+          @client.save!
           @address = Address.new(address_params)
           @address.client_id = @client.id
-          unless @address.save
-            raise ''
-          end
+          @address.save!
         end
 
         format.html { redirect_to @client, notice: 'Client was successfully created.' }
@@ -54,9 +50,8 @@ class ClientsController < ApplicationController
     respond_to do |format|
       begin
         ActiveRecord::Base.transaction do
-          unless @client.update(client_params) and @client.address.update(address_params)
-            raise ''
-          end
+          @client.update!(client_params)
+          @client.address.update!(address_params)
         end
         format.html { redirect_to @client, notice: 'Client was successfully updated.' }
         format.json { render :show, status: :ok, location: @client }
@@ -109,9 +104,7 @@ class ClientsController < ApplicationController
           @order = Order.new(order_params)
           @order.client_id = params[:id]
 
-          unless @order.save
-            raise ''
-          end
+          @order.save!
 
           if params.require(:order).has_key?(:products_ids_amount)
             products_prices = Hash[Product.pluck("id", "price")]
