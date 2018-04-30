@@ -60,3 +60,4 @@ gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 gem 'rb-readline'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+gem "rails-settings-cached"
