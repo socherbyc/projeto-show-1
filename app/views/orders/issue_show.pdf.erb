@@ -11,7 +11,7 @@
         <% @results.each do |result| %>
             <tr>
                 <th><%= result['label'] %></th>
-                <td><%= result['total'] %></td>
+                <td><%= number_to_currency(result['total'], locale: :"pt-BR", unit: "R$") %></td>
             </tr>
         <% end %>
     </table>

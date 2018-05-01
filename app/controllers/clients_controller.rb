@@ -1,5 +1,5 @@
 class ClientsController < ApplicationController
-  before_action :set_client, only: [:show, :edit, :update, :destroy, :orders_index]
+  before_action :set_client, only: [:show, :edit, :update, :destroy, :orders_index, :orders_new]
 
   # GET /clients
   # GET /clients.json
@@ -98,12 +98,12 @@ class ClientsController < ApplicationController
   end
 
   def orders_create
+    @order = Order.new(order_params)
     respond_to do |format|
       begin
         ActiveRecord::Base.transaction do
-          @order = Order.new(order_params)
           @order.client_id = params[:id]
-
+          @order.date = DateTime.current
           @order.save!
 
           if params.require(:order).has_key?(:products_ids_amount)
@@ -117,7 +117,7 @@ class ClientsController < ApplicationController
                 amount: amount,
                 price: products_prices[product_id.to_i],
                 order_number: @order.number,
-                product_id: product_id
+                product_id: product_id.to_i
               })
             end
       
@@ -129,7 +129,7 @@ class ClientsController < ApplicationController
         format.html { redirect_to url, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
       rescue
-        format.html { render :new }
+        format.html
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end

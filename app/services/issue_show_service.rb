@@ -36,7 +36,7 @@ class IssueShowService
     order_query.to_a.map do |i|
         {
           "label" => i._period.split("-").reverse.join("/"),
-          "total" => Money.new(i._sum_price * 100),
+          "total" => i._sum_price,
         }
       end
   end

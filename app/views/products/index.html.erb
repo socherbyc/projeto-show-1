@@ -19,7 +19,7 @@ Products
     <% @products.each do |product| %>
       <tr>
         <td><%= product.description %></td>
-        <td><%= product.price %></td>
+        <td><%= number_to_currency(product.price, locale: :"pt-BR", unit: "R$") %></td>
         <td><%= link_to 'Show', product %></td>
         <td><%= link_to 'Edit', edit_product_path(product) %></td>
         <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>

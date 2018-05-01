@@ -7,7 +7,7 @@
 
 <p>
   <strong>Price:</strong>
-  <%= @product.price %>
+  <%= number_to_currency(@product.price, locale: :"pt-BR", unit: "R$") %>
 </p>
 
 <%= link_to 'Edit', edit_product_path(@product) %> |

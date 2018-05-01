@@ -61,4 +61,3 @@ gem 'rb-readline'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 gem "rails-settings-cached"
-gem "money"

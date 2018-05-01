@@ -26,7 +26,7 @@ Orders<br>
       <tr>
         <td><%= order.number %></td>
         <td><%= order.client %></td>
-        <td><%= order.created_at > @date_last_close_billing %></td>
+        <td><%= @date_last_close_billing.present? and order.date < @date_last_close_billing %></td>
         <td><%= link_to 'Show', order %></td>
         <td><%= link_to 'Edit', edit_order_path(order) %></td>
         <% if false %>

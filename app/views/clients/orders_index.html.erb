@@ -11,14 +11,14 @@
         <% @orders.each do |order| %>
         <tr>
             <td><%= order.number %></td>
-            <td><%= @orders_totals[order.number] %></td>
+            <td><%= number_to_currency(@orders_totals[order.number], locale: :"pt-BR", unit: "R$") %></td>
             <td><%= link_to 'show', client_orders_show_path(@client, order) %></td>
         </tr>
         <% end %>
     </tbody>
 </table>
 
-Total: <%= @orders_totals.values.sum() %> <br>
+Total: <%= number_to_currency(@orders_totals.values.sum(), locale: :"pt-BR", unit: "R$") %> <br>
 
 <%= link_to 'New', client_orders_new_path(@client) %> |
 <%= link_to 'Back', @client %>

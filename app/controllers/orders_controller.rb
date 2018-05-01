@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_order, only: [:show, :edit, :update, :destroy, :new_complete]
 
   # GET /orders
   # GET /orders.json
@@ -44,6 +44,7 @@ class OrdersController < ApplicationController
   # POST /orders.json
   def create
     @order = Order.new(order_params)
+    @order.date = DateTime.current
 
     respond_to do |format|
       if @order.save

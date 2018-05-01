@@ -19,13 +19,13 @@
     <% @order_details.each do |order_detail| %>
       <tr>
         <td><%= order_detail.amount %></td>
-        <td><%= order_detail.price %></td>
+        <td><%= number_to_currency(order_detail.price, locale: :"pt-BR", unit: "R$") %></td>
         <td><%= order_detail.product %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-Total: <%= @total %>23 <br>
+Total: <%= number_to_currency(@total, locale: :"pt-BR", unit: "R$") %> <br>
 
 <%= link_to 'Back', client_orders_path %>
