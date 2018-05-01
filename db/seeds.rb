@@ -82,7 +82,7 @@ do_partitioned(TOTAL_PRODUCTS) do |start, ending, partition|
         else
             Faker::Lorem.unique.sentence
         end
-        Product.new(description: description, price: (i + i/100.0))
+        Product.new(description: description, price: (1 + i + (1 + i)/100.0))
     end
     Product.import products
     Faker::Lorem.unique.clear

@@ -1,32 +1,31 @@
 # README
 
 ## scaffold
-bin/rails generate scaffold client name:string:index password:digest is_admin:boolean;
+```
+bin/rails generate scaffold client name:string:index password:digest;
 bin/rails generate scaffold order number:primary_key client:references;
 bin/rails generate scaffold address street city state client:references;
 bin/rails generate scaffold product description:text 'price:decimal{10,2}';
 bin/rails generate scaffold order_detail amount:integer 'price:decimal{10,2}' order:references product:references;
+```
 
 ## util
+```
 bin/rails db:create db:migrate RAILS_ENV=development
 bin/rails db:rollback STEP=9999
 bundle install # --path vendor/bundle
 rails s -e development
+```
 
 ## gems
-https://github.com/composite-primary-keys/composite_primary_keys
-
-
+- https://github.com/composite-primary-keys/composite_primary_keys
 
 
 ## todo
 ```
--> Emissão dos resumos de faturamento por mês (6), por produto mensal (7) e anual (8).
--- envio de pdf por e-mail (10).
--* paginacao
--- select+search (criar order (products))
--* filter+mensagens erro
--* formatar string dinheiro
+- filter+mensagens erro
+- apagar código não usado (address_controller por exemplo)
+- criar client_order_controller
 ```
 
 

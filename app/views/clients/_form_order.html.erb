@@ -16,13 +16,41 @@
       <%= form.text_field :number, id: :order_number %>
     </div>
 
+    <div id="products-form">
+    </div>
+
     <div class="field">
-      <%= form.label :products_ids_amount %>
-      id=amount,id=amount,id=amount,...<br>
-      <%= form.text_field :products_ids_amount, id: :products_ids_amount %>
+      <button id="add-product" type="button">Add product</button>
     </div>
   
     <div class="actions">
       <%= form.submit %>
     </div>
 <% end %>
+
+<div id="product-add-default" class="field" style="display: none;">
+  <label>Product</label>
+  <%= select_tag("products[][id]", options_from_collection_for_select(@products, "id", "description")) %>
+  <label>Amount</label>
+  <input name="products[][amount]" type="number">
+</div>
+
+<script>
+  (function() {
+    // Load the script
+    var script = document.createElement("SCRIPT");
+    script.src = 'https://code.jquery.com/jquery-3.3.1.min.js';
+    script.type = 'text/javascript';
+    script.onload = function() {
+        var $ = window.jQuery;
+        var addProduct = function() {
+          var addDefault = $("#product-add-default").clone();
+          addDefault.removeAttr('id');
+          $('#products-form').append(addDefault.html());
+        };
+        $('body').on('click', '#add-product', addProduct);
+        addProduct();
+    };
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>

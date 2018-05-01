@@ -91,7 +91,7 @@ class ClientsController < ApplicationController
     ]
     @total = OrderDetail \
       .joins("INNER JOIN orders ON order_details.order_number = orders.number") \
-      .where('orders.client_id': 2).order(1) \
+      .where('orders.client_id': @client.id).order(1) \
       .select('SUM(amount * price) _total') \
       .first._total
   end
@@ -104,6 +104,7 @@ class ClientsController < ApplicationController
 
   def orders_new
     @order = Order.new
+    @products = Product.all
   end
 
   def orders_create
@@ -115,30 +116,23 @@ class ClientsController < ApplicationController
           @order.date = DateTime.current
           @order.save!
 
-          if params.require(:order).has_key?(:products_ids_amount)
-            products_prices = Hash[Product.pluck("id", "price")]
-
-            products_ids_amount = params.require(:order).require(:products_ids_amount) \
-              .split(",").map { |s| s.split "=" }
-      
-            order_details = products_ids_amount.map do |(product_id, amount)|
-              OrderDetail.new({
-                amount: amount,
-                price: products_prices[product_id.to_i],
-                order_number: @order.number,
-                product_id: product_id.to_i
-              })
-            end
-      
-            OrderDetail.import order_details
-          end
+          products_prices = Hash[Product.pluck("id", "price")]
+    
+          OrderDetail.import(params['products'].map do |token|
+            OrderDetail.new({
+              amount: [token["amount"].to_i, 1].max,
+              price: products_prices[token["id"].to_i],
+              order_number: @order.number,
+              product_id: token["id"].to_i
+            })
+          end)
         end
 
         url = client_orders_show_path(id: @order.client_id, number: @order.number)
         format.html { redirect_to url, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
       rescue
-        format.html
+        format.html { redirect_to client_orders_new_path(@order.client_id), notice: 'Error.' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
