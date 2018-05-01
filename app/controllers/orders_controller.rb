@@ -16,7 +16,10 @@ class OrdersController < ApplicationController
 
   def issue_show
     @results = IssueShowService.new(params).get_results
-    
+
+    pdf_file = WickedPdf.new.pdf_from_string render_to_string { render pdf: 'orders/issue_show' }
+    IssueShowEmailMailer.notify("admin@example.com", pdf_file).deliver_later!
+
     respond_to do |format|
       format.html
       format.pdf { render pdf: 'orders/issue_show' }
