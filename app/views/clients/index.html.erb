@@ -6,6 +6,8 @@ Clients<br>
 
 <h1>Clients</h1>
 
+<%= link_to 'New Client', new_client_path %>
+
 <table>
   <thead>
     <tr>
@@ -30,4 +32,4 @@ Clients<br>
 
 <br>
 
-<%= link_to 'New Client', new_client_path %>
+<%= paginate @clients %>

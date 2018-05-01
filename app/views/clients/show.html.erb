@@ -1,3 +1,7 @@
+<%= link_to 'Orders', client_orders_path %> |
+<%= link_to 'Edit', edit_client_path(@client) %> |
+<%= link_to 'Back', clients_path %>
+
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -24,7 +28,3 @@
   <strong>Address State:</strong>
   <%= @client.address.state %>
 </p>
-
-<%= link_to 'Orders', client_orders_path %> |
-<%= link_to 'Edit', edit_client_path(@client) %> |
-<%= link_to 'Back', clients_path %>

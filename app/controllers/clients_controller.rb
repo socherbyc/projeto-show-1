@@ -4,7 +4,7 @@ class ClientsController < ApplicationController
   # GET /clients
   # GET /clients.json
   def index
-    @clients = Client.all
+    @clients = Client.page(params[:page] || 1).per(10)
   end
 
   # GET /clients/1
@@ -83,8 +83,17 @@ class ClientsController < ApplicationController
   end
 
   def orders_index
-    @orders = @client.orders
-    @orders_totals = Hash[OrderDetail.where(order_number: @orders).group(:order_number).pluck(:order_number, "SUM(amount * price)")]
+    @orders = @client.orders.page(params[:page] || 1).per(10)
+    @totals_by_orders = Hash[
+      OrderDetail.where(order_number: @orders)
+        .group(:order_number)
+        .pluck(:order_number, "SUM(amount * price)")
+    ]
+    @total = OrderDetail \
+      .joins("INNER JOIN orders ON order_details.order_number = orders.number") \
+      .where('orders.client_id': 2).order(1) \
+      .select('SUM(amount * price) _total') \
+      .first._total
   end
 
   def orders_show

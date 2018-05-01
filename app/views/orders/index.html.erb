@@ -11,6 +11,8 @@ Orders<br>
 
 <%= link_to 'Emitir Faturamento', orders_issue_path %><br><br>
 
+<%= link_to 'New Order', new_order_path %>
+
 <table>
   <thead>
     <tr>
@@ -25,7 +27,7 @@ Orders<br>
     <% @orders.each do |order| %>
       <tr>
         <td><%= order.number %></td>
-        <td><%= order.client %></td>
+        <td><%= link_to "\##{order.client.name}", order.client %></td>
         <td><%= @date_last_close_billing.present? and order.date < @date_last_close_billing %></td>
         <td><%= link_to 'Show', order %></td>
         <td><%= link_to 'Edit', edit_order_path(order) %></td>
@@ -39,4 +41,4 @@ Orders<br>
 
 <br>
 
-<%= link_to 'New Order', new_order_path %>
+<%= paginate @orders %>

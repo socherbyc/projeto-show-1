@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all
+    @orders = Order.page(params[:page] || 1).per(10)
     @date_last_close_billing = Setting.date_last_close_billing
   end
 

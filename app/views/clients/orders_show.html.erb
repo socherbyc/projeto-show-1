@@ -1,3 +1,5 @@
+<%= link_to 'Back', client_orders_path %>
+
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -8,24 +10,23 @@
 <table>
   <thead>
     <tr>
+      <th>Product</th>
       <th>Amount</th>
       <th>Price</th>
-      <th>Product</th>
-      <th colspan="3"></th>
+      <th>Total</th>
     </tr>
   </thead>
 
   <tbody>
     <% @order_details.each do |order_detail| %>
       <tr>
+        <td><%= link_to "\##{order_detail.product.description}", order_detail.product %></td>
         <td><%= order_detail.amount %></td>
         <td><%= number_to_currency(order_detail.price, locale: :"pt-BR", unit: "R$") %></td>
-        <td><%= order_detail.product %></td>
+        <td><%= number_to_currency(order_detail.price * order_detail.amount, locale: :"pt-BR", unit: "R$") %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 Total: <%= number_to_currency(@total, locale: :"pt-BR", unit: "R$") %> <br>
-
-<%= link_to 'Back', client_orders_path %>
