@@ -1,0 +1,18 @@
+<%= form_tag orders_issue_show_path do %>
+    <% if @older_closed_order.present? and @newer_closed_order.present? %>
+        Data de inicio: <%= date_select :issue, :date_start,
+            start_year: @older_closed_order.date.year,
+            end_year: @newer_closed_order.date.year,
+            default: @older_closed_order.date,
+            order: [:day, :month, :year] %><br>
+        Data de fim: <%= date_select :issue, :date_end,
+            start_year: @older_closed_order.date.year,
+            end_year: @newer_closed_order.date.year,
+            default: @newer_closed_order.date,
+            order: [:day, :month, :year] %><br>
+    <% end %>
+    Show: <%= radio_button_tag 'by_time', 'month', true %>month
+        <%= radio_button_tag 'by_time', 'year' %>year<br>
+    Products: <%= select_tag "products", options_from_collection_for_select(@products, "id", "description"), multiple: true %><br>
+    <%= submit_tag "Emitir" %>
+<% end %>

@@ -5,6 +5,22 @@ class OrdersController < ApplicationController
   # GET /orders.json
   def index
     @orders = Order.all
+    @date_last_close_billing = Setting.date_last_close_billing
+  end
+
+  def issue
+    @older_closed_order = Order.where('date <= ?', Setting.date_last_close_billing).order('date asc').first
+    @newer_closed_order = Order.where('date <= ?', Setting.date_last_close_billing).order('date desc').first
+    @products = Product.all
+  end
+
+  def issue_show
+    @results = IssueShowService.new(params).get_results
+    
+    respond_to do |format|
+      format.html
+      format.pdf { render pdf: 'orders/issue_show' }
+    end
   end
 
   # GET /orders/1
@@ -63,6 +79,14 @@ class OrdersController < ApplicationController
 
   def new_complete
     @order = Order.new
+  end
+
+  def close_billing
+    Setting.date_last_close_billing = DateTime.now
+    respond_to do |format|
+      format.html { redirect_to orders_path, notice: 'Faturamento fechado.' }
+      format.json { head :no_content }
+    end
   end
 
   private
