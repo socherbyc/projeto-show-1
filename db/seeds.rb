@@ -12,10 +12,10 @@
 # TOTAL_ORDERS = TOTAL_CLIENTS * 150
 # PARTITION_SIZE = 10_000
 
-TOTAL_CLIENTS = 100
+TOTAL_CLIENTS = 1_000
 TOTAL_PRODUCTS = 10
-TOTAL_ORDERS = 300
-PARTITION_SIZE = 10_000
+TOTAL_ORDERS = 5_000
+PARTITION_SIZE = 3_000
 
 OrderDetail.delete_all
 Order.delete_all
@@ -36,14 +36,19 @@ end
 
 # clients
 
-Client.create(name: "client-0", password: '123456', is_admin: false)
+Client.create(name: "client-0", password: '123456')
 password_digest = Client.first.password_digest
 Client.first.destroy!
 
 do_partitioned(TOTAL_CLIENTS) do |start, ending, partition|
     puts "client #{partition}"
     clients = (start...ending).map do |i|
-        Client.new(name: "#{Faker::Name.unique.name} #{partition}", password_digest: password_digest, is_admin: false)
+        name = if partition > 0
+            "#{Faker::Name.unique.name} #{partition}"
+        else
+            Faker::Name.unique.name
+        end
+        Client.new(name: name, password_digest: password_digest)
     end
     Client.import clients
     Faker::Name.unique.clear
@@ -53,10 +58,31 @@ end
 
 # products
 
+products_names = [
+    "Abacate", "Abóbora", "Abobrinha", "Acelga", "Aipo", "Alcachofra", "Alface",
+    "Alfafa", "Almeirão", "Aspargo", "Berinjela", "Bertalha", "Brócolos", "Cebola",
+    "Alho", "Cebola-roxa", "Chicória", "Chuchu", "Cogumelo", "Shiitake", "Couve",
+    "Couve-de-bruxelas", "Couve-flor", "Couve-galega", "Endívia", "Funcho",
+    "Escorcioneira", "Espinafre", "Feijão", "Ervilha", "Lentilha", "Soja", "Vagem",
+    "Fruta-pão", "Jiló", "Maxixe", "Milho", "Pepino", "Pimentão", "Jalapeño",
+    "Malagueta", "Páprica", "Quiabo", "Batata doce", "Beterraba", "Cenoura",
+    "Gengibre", "Mandioca", "Nabo", "Rabanete", "Rábano", "Crem", "Repolho",
+    "Rúcula", "Taioba", "Tomate", "Batata", "Jicama", "Mandioquinha", "Taro",
+    "Inhame", "Vará", "Pimenta-vermelha", "Feijão-preto", "Azuki",
+    "Brotos de feijão", "Fava", "Guandu", "Alho poró"
+].shuffle
+
 do_partitioned(TOTAL_PRODUCTS) do |start, ending, partition|
     puts "product #{partition}"
     products = (start...ending).map do |i|
-        Product.new(description: "#{Faker::Lorem.unique.sentence} #{partition}", price: (i + i/100.0))
+        description = if i < products_names.length
+            products_names[i]
+        elsif partition > 0
+            "#{Faker::Lorem.unique.sentence} #{partition}"
+        else
+            Faker::Lorem.unique.sentence
+        end
+        Product.new(description: description, price: (i + i/100.0))
     end
     Product.import products
     Faker::Lorem.unique.clear
