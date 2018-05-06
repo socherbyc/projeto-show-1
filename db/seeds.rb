@@ -7,15 +7,15 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-# TOTAL_CLIENTS = 10_000
-# TOTAL_PRODUCTS = 10
-# TOTAL_ORDERS = TOTAL_CLIENTS * 150
-# PARTITION_SIZE = 10_000
-
-TOTAL_CLIENTS = 1_000
+TOTAL_CLIENTS = 10_000
 TOTAL_PRODUCTS = 10
-TOTAL_ORDERS = 5_000
-PARTITION_SIZE = 3_000
+TOTAL_ORDERS = TOTAL_CLIENTS * 150
+PARTITION_SIZE = 10_000
+
+# TOTAL_CLIENTS = 1_000
+# TOTAL_PRODUCTS = 10
+# TOTAL_ORDERS = 5_000
+# PARTITION_SIZE = 3_000
 
 OrderDetail.delete_all
 Order.delete_all
@@ -133,6 +133,10 @@ do_partitioned(TOTAL_ORDERS) do |start, ending, partition|
                 product_id: product_id)
         end
     end
-    OrderDetail.import orders_details.flatten
+    begin
+        OrderDetail.import orders_details.flatten
+    rescue Exception => e
+        puts "erro na seeder: #{e}"
+    end
 end
 
